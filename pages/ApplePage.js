@@ -22,14 +22,7 @@ class BookingPage {
 
     async changeLanguage() {
         await this.clickElement(this.kzLanguageLink);
-    }
-
-
-    async fillInput(locator, value) {
-        console.log('Filling input with value:', value);
-        const element = await this.driver.wait(until.elementLocated(locator), 10000);
-        await this.driver.wait(until.elementIsVisible(element), 10000);
-        await element.sendKeys(value);
+        this.driver.sleep(2000);
     }
 
     async clickElement(locator) {

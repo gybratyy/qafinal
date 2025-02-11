@@ -17,10 +17,18 @@ class ComparisonTest {
 
     async addFirstTwoProductsToCompare() {
 
-        // Get first two product links
-        let productElements = await this.driver.findElements(this.productLinks);
+        let productElements = [];
+        for (let attempt = 0; attempt < 3; attempt++) {
+            productElements = await this.driver.findElements(this.productLinks);
+            if (productElements.length >= 2) {
+                break;
+            }
+            logger.warn(`Attempt ${attempt + 1}: Less than two products found, retrying...`);
+            await this.driver.sleep(1000); // Wait for 1 second before retrying
+        }
+
         if (productElements.length < 2) {
-            throw new Error("Less than two products found in catalog!");
+            throw new Error("Less than two products found in catalog after multiple attempts!");
         }
 
         let productUrls = [];
